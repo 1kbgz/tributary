@@ -1,4 +1,5 @@
 import pandas as pd
+
 from ..node import Node
 
 
@@ -70,9 +71,7 @@ def MACD(node, period_fast=12, period_slow=26, signal=9, basket=False):
         return macd.iloc[-1]
 
     # make new node
-    ret = node._gennode(
-        "MACD[{},{},{}]".format(period_fast, period_slow, signal), _macd, [node]
-    )
+    ret = node._gennode("MACD[{},{},{}]".format(period_fast, period_slow, signal), _macd, [node])
     return ret
 
 

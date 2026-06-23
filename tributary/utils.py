@@ -1,10 +1,9 @@
 import functools
 import inspect
+from collections import namedtuple
 
 import numpy as np
 import pandas as pd
-
-from collections import namedtuple
 
 from .base import StreamEnd
 
@@ -51,9 +50,7 @@ def _compare(new_value, old_value):
     elif type(new_value) is not type(old_value):
         return True
 
-    elif isinstance(new_value, (pd.DataFrame, pd.Series, np.ndarray)) or isinstance(
-        old_value, (pd.DataFrame, pd.Series, np.ndarray)
-    ):
+    elif isinstance(new_value, (pd.DataFrame, pd.Series, np.ndarray)) or isinstance(old_value, (pd.DataFrame, pd.Series, np.ndarray)):
         return (abs(new_value - old_value) > 0.00001).any()
 
     return new_value != old_value
@@ -61,13 +58,7 @@ def _compare(new_value, old_value):
 
 def _ismethod(callable):
     try:
-        return callable and (
-            inspect.ismethod(callable)
-            or (
-                inspect.getargspec(callable).args
-                and inspect.getargspec(callable).args[0] == "self"
-            )
-        )
+        return callable and (inspect.ismethod(callable) or (inspect.getargspec(callable).args and inspect.getargspec(callable).args[0] == "self"))
     except TypeError:
         return False
 
@@ -91,9 +82,8 @@ async def _agen_to_func(generator):
 
 
 def _gen_node(n):
-    from .streaming import Const, Func
     from .lazy import Node as LazyNode
-    from .streaming import Node as StreamingNode
+    from .streaming import Const, Func, Node as StreamingNode
 
     if isinstance(n, StreamingNode):
         return n
@@ -142,7 +132,4 @@ def extractParameters(callable):
         signature = namedtuple("Signature", ["parameters"])({})
 
     # extract all args. args/kwargs become tuple/dict input
-    return [
-        Parameter(p.name, i, p.default, p.kind)
-        for i, p in enumerate(signature.parameters.values())
-    ]
+    return [Parameter(p.name, i, p.default, p.kind) for i, p in enumerate(signature.parameters.values())]

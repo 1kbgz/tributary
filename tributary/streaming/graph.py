@@ -4,7 +4,6 @@ from threading import Thread
 
 from ..base import StreamEnd, StreamNone, StreamRepeat, TributaryException  # noqa: F401
 
-
 # nest_asyncio.apply()
 
 
@@ -36,11 +35,7 @@ class StreamingGraph(object):
         # Check that all are async coroutines
         for call in self._onstarts + self._onstops:
             if not asyncio.iscoroutinefunction(call):
-                raise TributaryException(
-                    "all onstarts and onstops must be async coroutines, got bad function: {}".format(
-                        call
-                    )
-                )
+                raise TributaryException("all onstarts and onstops must be async coroutines, got bad function: {}".format(call))
 
         # return node levels
         return self._nodes

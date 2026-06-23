@@ -18,9 +18,10 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
-import sys
 import os.path
 import subprocess
+import sys
+
 import sphinx_rtd_theme
 from recommonmark.transform import AutoStructify
 
@@ -203,9 +204,7 @@ def run_copyreadme(_):
 
 def run_apidoc(_):
     out_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "api"))
-    lib_dir = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "..", "tributary")
-    )
+    lib_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "tributary"))
     cmd_path = "sphinx-apidoc"
     if hasattr(sys, "real_prefix"):  # Check to see if we are in a virtualenv
         # If we are, assemble the path manually

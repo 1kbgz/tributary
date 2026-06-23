@@ -1,6 +1,7 @@
-import pytest
 import random
 import time
+
+import pytest
 
 
 class TestFunctional:
@@ -19,9 +20,7 @@ class TestFunctional:
                 x = x + 1
 
         def func2(data, callback):
-            callback(
-                [{"a": data["a"] * 1000, "b": data["b"], "c": "AAPL", "x": data["x"]}]
-            )
+            callback([{"a": data["a"] * 1000, "b": data["b"], "c": "AAPL", "x": data["x"]}])
 
         t.pipeline([func1, func2], ["on_data", "callback"], on_data=lambda x: None)
         time.sleep(1)

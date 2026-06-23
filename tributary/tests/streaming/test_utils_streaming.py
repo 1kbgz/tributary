@@ -1,11 +1,13 @@
 import asyncio
 import json as JSON
 import os.path
-import pytest
 import sys
 import time
-import tributary.streaming as ts
 from asyncio import sleep
+
+import pytest
+
+import tributary.streaming as ts
 
 
 def func():
@@ -146,14 +148,10 @@ class TestUtils:
         def _json(val):
             return JSON.dumps(val)
 
-        cmd = "{} {} --1".format(
-            sys.executable, os.path.join(os.path.dirname(__file__), "echo.py")
-        )
+        cmd = "{} {} --1".format(sys.executable, os.path.join(os.path.dirname(__file__), "echo.py"))
         print(cmd)
 
-        ret = ts.run(
-            ts.Subprocess(ts.Func(func).print("in:"), cmd, json=True).print("out:")
-        )
+        ret = ts.run(ts.Subprocess(ts.Func(func).print("in:"), cmd, json=True).print("out:"))
 
         print(ret)
         assert ret == [
@@ -202,9 +200,7 @@ class TestUtils:
 
         short_node = ts.Func(interval(short, 1), count=5)
         long_node = ts.Func(interval(long, 1), count=5)
-        out = ts.Reduce(
-            short_node, long_node, reducer=reducer, inject_node=True
-        ).print()
+        out = ts.Reduce(short_node, long_node, reducer=reducer, inject_node=True).print()
         ts.run(out)
 
     def test_debounce(self):

@@ -1,5 +1,6 @@
 import pandas as pd
 import superstore
+
 import tributary.lazy as tl
 
 
@@ -48,9 +49,7 @@ class TestFinance:
             name="EMA_slow",
         )
         MACD = pd.Series(EMA_fast - EMA_slow, name="MACD")
-        MACD_signal = pd.Series(
-            MACD.ewm(ignore_na=False, span=signal, adjust=adjust).mean(), name="SIGNAL"
-        )
+        MACD_signal = pd.Series(MACD.ewm(ignore_na=False, span=signal, adjust=adjust).mean(), name="SIGNAL")
 
         expected = pd.concat([MACD, MACD_signal], axis=1)
 
@@ -66,8 +65,6 @@ class TestFinance:
             assert expected.values[i][1] - ret[1] < 0.001
 
         n = tl.Node(value=val)
-        n_macd = n.macd(
-            period_fast=period_fast, period_slow=period_slow, signal=signal, basket=True
-        )
+        n_macd = n.macd(period_fast=period_fast, period_slow=period_slow, signal=signal, basket=True)
 
         assert n_macd().tolist() == expected.values.tolist()

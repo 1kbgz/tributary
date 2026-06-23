@@ -1,8 +1,10 @@
 import math
+
 import numpy as np
 import scipy as sp
-from .utils import _CALCULATIONS_GRAPHVIZSHAPE
+
 from ..node import Node
+from .utils import _CALCULATIONS_GRAPHVIZSHAPE
 
 
 def unary(node, name, lam):
@@ -209,16 +211,8 @@ def Sum(self, *others):
     return n_ary(
         self,
         others_nodes,
-        "Sum({},{})".format(
-            self._name_no_id, ",".join(other._name_no_id for other in others_nodes)
-        ),
-        (
-            lambda *args: (
-                sum(x for x in args)
-                if not self._use_dual
-                else (sum([x[0] for x in args]), sum(x[1] for x in args))
-            )
-        ),
+        "Sum({},{})".format(self._name_no_id, ",".join(other._name_no_id for other in others_nodes)),
+        (lambda *args: sum(x for x in args) if not self._use_dual else (sum([x[0] for x in args]), sum(x[1] for x in args))),
     )
 
 
@@ -236,9 +230,7 @@ def Average(self, *others):
     return n_ary(
         self,
         others_nodes,
-        "Average({},{})".format(
-            self._name_no_id, ",".join(other._name_no_id for other in others_nodes)
-        ),
+        "Average({},{})".format(self._name_no_id, ",".join(other._name_no_id for other in others_nodes)),
         (
             lambda *args: (
                 sum(x for x in args) / len(args)
@@ -442,11 +434,7 @@ def Log(self):
     return unary(
         self,
         "log({})".format(self._name_no_id),
-        (
-            lambda x: (
-                math.log(x) if not self._use_dual else (math.log(x[0]), x[1] / x[0])
-            )
-        ),
+        (lambda x: math.log(x) if not self._use_dual else (math.log(x[0]), x[1] / x[0])),
     )
 
 
@@ -539,13 +527,7 @@ def Floor(self):
     return unary(
         self,
         "floor({})".format(self._name_no_id),
-        (
-            lambda x: (
-                math.floor(x)
-                if not self._use_dual
-                else (math.floor(x[0]), math.floor(x[1]))
-            )
-        ),
+        (lambda x: math.floor(x) if not self._use_dual else (math.floor(x[0]), math.floor(x[1]))),
     )
 
 
@@ -554,13 +536,7 @@ def Ceil(self):
     return unary(
         self,
         "ceil({})".format(self._name_no_id),
-        (
-            lambda x: (
-                math.ceil(x)
-                if not self._use_dual
-                else (math.ceil(x[0]), math.ceil(x[1]))
-            )
-        ),
+        (lambda x: math.ceil(x) if not self._use_dual else (math.ceil(x[0]), math.ceil(x[1]))),
     )
 
 

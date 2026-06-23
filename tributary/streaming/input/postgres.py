@@ -1,5 +1,7 @@
-import asyncpg
 import asyncio
+
+import asyncpg
+
 from .input import Func
 
 

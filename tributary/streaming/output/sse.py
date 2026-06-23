@@ -1,10 +1,12 @@
 import asyncio
-from collections import deque
 import json as JSON
+from collections import deque
+
 from aiohttp import web
 from aiohttp_sse import sse_response
-from .output import Func
+
 from ..node import Node
+from .output import Func
 
 
 class SSE(Func):
@@ -116,9 +118,7 @@ class SSE(Func):
                 history.append(data)
 
             # put data into queue
-            await asyncio.gather(
-                *(asyncio.create_task(queue.put(data) for queue in queue_map.values()))
-            )
+            await asyncio.gather(*(asyncio.create_task(queue.put(data) for queue in queue_map.values())))
 
             # TODO expect response from clients?
             return data

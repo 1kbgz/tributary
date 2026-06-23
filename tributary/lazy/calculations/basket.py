@@ -1,5 +1,5 @@
-from .ops import unary
 from ..node import Node
+from .ops import unary
 
 
 def Len(self):

@@ -1,4 +1,5 @@
 from __future__ import print_function
+
 import os
 
 if os.name != "nt":
@@ -10,13 +11,13 @@ if os.name != "nt":
         monkey.patch_all(thread=False, select=False)
         _PATCHED = True
 
-from functools import partial  # noqa: E402
-from concurrent.futures.thread import _WorkItem, BrokenThreadPool  # noqa: E402
-from concurrent.futures import ThreadPoolExecutor, _base  # noqa: E402
 import concurrent.futures.thread as cft  # noqa: E402
+from concurrent.futures import ThreadPoolExecutor, _base  # noqa: E402
+from concurrent.futures.thread import BrokenThreadPool, _WorkItem  # noqa: E402
+from functools import partial  # noqa: E402
+
 from .input import *  # noqa: F401, F403, E402
 from .utils import *  # noqa: F401, F403, E402
-
 
 _EXECUTOR = ThreadPoolExecutor(max_workers=10)
 
@@ -39,9 +40,7 @@ def submit(fn, *args, **kwargs):
         if hasattr(self, "_shutdown") and self._shutdown:
             raise RuntimeError("cannot schedule new futures after shutdown")
         if cft._shutdown:
-            raise RuntimeError(
-                "cannot schedule new futures after" "interpreter shutdown"
-            )
+            raise RuntimeError("cannot schedule new futures afterinterpreter shutdown")
 
         f = _base.Future()
         w = _WorkItem(f, fn, args, kwargs)
@@ -59,14 +58,10 @@ def run_submit(fn, function_to_call, *args, **kwargs):
         return
 
     if function_to_call:
-        f.add_done_callback(
-            lambda fut: function_to_call(fut.result()) if fut.result() else None
-        )
+        f.add_done_callback(lambda fut: function_to_call(fut.result()) if fut.result() else None)
 
 
-def pipeline(
-    funcs, func_callbacks, func_kwargs=None, on_data=print, on_data_kwargs=None
-):
+def pipeline(funcs, func_callbacks, func_kwargs=None, on_data=print, on_data_kwargs=None):
     """Pipeline a sequence of functions together via callbacks
 
     Args:
@@ -99,14 +94,10 @@ def pipeline(
         kwargs[cb] = function_to_call
 
         if i != len(assembled) - 1:
-            lambdas.append(
-                lambda d, kw=kwargs, f=func: run_submit(f, function_to_call, d, **kw)
-            )
+            lambdas.append(lambda d, kw=kwargs, f=func: run_submit(f, function_to_call, d, **kw))
             lambdas[-1].__name__ = func.__name__
         else:
-            lambdas.append(
-                lambda kw=kwargs, f=func: run_submit(f, function_to_call, **kw)
-            )
+            lambdas.append(lambda kw=kwargs, f=func: run_submit(f, function_to_call, **kw))
             lambdas[-1].__name__ = func.__name__
 
     # start entrypoint

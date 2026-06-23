@@ -53,10 +53,8 @@ requires = [
 ]
 
 requires_dev = [
-    "black>=23",
+    "ruff",
     "check-manifest",
-    "flake8>=3.7.8",
-    "flake8-black>=0.2.1",
     "mock",
     "pybind11>=2.4.0",
     "pytest>=4.3.0",

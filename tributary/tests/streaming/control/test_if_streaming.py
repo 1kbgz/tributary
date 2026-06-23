@@ -20,8 +20,4 @@ class TestConditional:
     def test_if(self):
         import tributary.streaming as ts
 
-        assert ts.run(
-            ts.Print(
-                ts.If(ts.Func(conditionals), ts.Func(if_stream), ts.Func(else_stream))
-            )
-        ) == [1, 2, 3]
+        assert ts.run(ts.Print(ts.If(ts.Func(conditionals), ts.Func(if_stream), ts.Func(else_stream)))) == [1, 2, 3]

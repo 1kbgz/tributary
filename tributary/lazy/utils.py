@@ -1,4 +1,5 @@
-from temporalcache import interval, expire
+from temporalcache import expire, interval
+
 from .base import Node
 
 
@@ -18,9 +19,7 @@ def Expire(
 
     # make new node
     ret = node._gennode(
-        "Expire[{}-{}-{}-{}-{}-{}-{}-maxsize:{}]({})".format(
-            second, minute, hour, day, day_of_week, week, month, maxsize, node._name
-        ),
+        "Expire[{}-{}-{}-{}-{}-{}-{}-maxsize:{}]({})".format(second, minute, hour, day, day_of_week, week, month, maxsize, node._name),
         _interval,
         [node],
     )
@@ -42,17 +41,13 @@ def Expire(
     return ret
 
 
-def Interval(
-    node, seconds=0, minutes=0, hours=0, days=0, weeks=0, months=0, years=0, maxsize=128
-):
+def Interval(node, seconds=0, minutes=0, hours=0, days=0, weeks=0, months=0, years=0, maxsize=128):
     def _interval(data):
         return data
 
     # make new node
     ret = node._gennode(
-        "Interval[{}-{}-{}-{}-{}-{}-{}-maxsize:{}]({})".format(
-            seconds, minutes, hours, days, weeks, months, years, maxsize, node._name
-        ),
+        "Interval[{}-{}-{}-{}-{}-{}-{}-maxsize:{}]({})".format(seconds, minutes, hours, days, weeks, months, years, maxsize, node._name),
         _interval,
         [node],
     )

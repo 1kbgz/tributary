@@ -11,9 +11,7 @@ class NodeSerializeMixin(object):
 
         ret["input"] = [dill.dumps(_) for _ in self._input]
         ret["active"] = [dill.dumps(_) for _ in self._active]
-        ret["downstream"] = (
-            []
-        )  # TODO think about this more [_.save() for _ in self._downstream]
+        ret["downstream"] = []  # TODO think about this more [_.save() for _ in self._downstream]
         ret["upstream"] = [_.save() for _ in self._upstream]
 
         ret["func"] = dill.dumps(self._func)
@@ -37,6 +35,7 @@ class NodeSerializeMixin(object):
     @staticmethod
     def restore(ret, **extra_attrs):
         import dill
+
         from .node import Node
 
         # self._dd3g = None  # TODO
@@ -93,8 +92,9 @@ class NodeSerializeMixin(object):
 if __name__ == "__main__":
     # Test script
     import asyncio
-    import tributary.streaming as ts
     import time
+
+    import tributary.streaming as ts
 
     async def func():
         await asyncio.sleep(2)

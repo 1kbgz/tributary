@@ -1,5 +1,6 @@
 import asyncio
 import time
+
 import tributary.streaming as ts
 
 
@@ -20,6 +21,7 @@ class TestStreaming:
 
     def test_run_stop(self):
         import time
+
         import tributary.streaming as ts
 
         async def func():

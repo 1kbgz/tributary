@@ -1,6 +1,7 @@
-import tributary.lazy as tl
 from datetime import datetime
 from time import sleep
+
+import tributary.lazy as tl
 
 
 def func():

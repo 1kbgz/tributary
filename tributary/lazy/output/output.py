@@ -17,12 +17,7 @@ def Print(node, level=0):
     if not node.upstream():
         # leaf node
         return ret + "  \\  " + repr(node)
-    return (
-        "    " * level
-        + repr(node)
-        + "\n"
-        + "\n".join(_.print(level + 1) for _ in node.upstream())
-    )
+    return "    " * level + repr(node) + "\n" + "\n".join(_.print(level + 1) for _ in node.upstream())
 
 
 def GraphViz(node):
@@ -117,31 +112,19 @@ def Dagre(node):
                         G.setNode(
                             k._name,
                             style="fill: #0ff",
-                            shape=(
-                                "rect"
-                                if k._graphvizshape == "box"
-                                else k._graphvizshape
-                            ),
+                            shape=("rect" if k._graphvizshape == "box" else k._graphvizshape),
                         )
                     elif k.isDirty():
                         G.setNode(
                             k._name,
                             style="fill: #f00",
-                            shape=(
-                                "rect"
-                                if k._graphvizshape == "box"
-                                else k._graphvizshape
-                            ),
+                            shape=("rect" if k._graphvizshape == "box" else k._graphvizshape),
                         )
                     else:
                         G.setNode(
                             k._name,
                             style="fill: #fff",
-                            shape=(
-                                "rect"
-                                if k._graphvizshape == "box"
-                                else k._graphvizshape
-                            ),
+                            shape=("rect" if k._graphvizshape == "box" else k._graphvizshape),
                         )
                     rec(d[k], k)
 

@@ -1,5 +1,6 @@
 import os
 import time
+
 import tributary.streaming as ts
 
 
@@ -8,9 +9,7 @@ class TestFile:
         time.sleep(0.5)
 
     def test_file(self):
-        file = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "test_file_data.json")
-        )
+        file = os.path.abspath(os.path.join(os.path.dirname(__file__), "test_file_data.json"))
         if os.path.exists(file):
             os.remove(file)
 

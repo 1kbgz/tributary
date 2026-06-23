@@ -1,7 +1,9 @@
 import json as JSON
+
 from aiokafka import AIOKafkaProducer
-from .output import Func
+
 from ..node import Node
+from .output import Func
 
 
 class Kafka(Func):
@@ -16,14 +18,10 @@ class Kafka(Func):
         interval (int): kafka poll interval
     """
 
-    def __init__(
-        self, node, servers="", topic="", json=False, wrap=False, **producer_kwargs
-    ):
+    def __init__(self, node, servers="", topic="", json=False, wrap=False, **producer_kwargs):
         async def _send(data, topic=topic, json=json, wrap=wrap):
             if self._producer is None:
-                self._producer = AIOKafkaProducer(
-                    bootstrap_servers=servers, **producer_kwargs
-                )
+                self._producer = AIOKafkaProducer(bootstrap_servers=servers, **producer_kwargs)
 
                 # Get cluster layout and initial topic/partition leadership information
                 await self._producer.start()

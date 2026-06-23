@@ -1,13 +1,14 @@
-import requests
 import time
 from json import loads as load_json
+
+import requests
 
 try:
     from urllib.parse import urlparse
 except ImportError:
     from urlparse import urlparse
 
-from ..base import StreamNone, StreamEnd
+from ..base import StreamEnd, StreamNone
 from ..thread import run
 
 

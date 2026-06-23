@@ -1,6 +1,7 @@
 import asyncpg
-from .output import Func
+
 from ..node import Node
+from .output import Func
 
 
 class Postgres(Func):

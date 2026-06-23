@@ -2,8 +2,9 @@ import asyncio
 import json as JSON
 import os
 from datetime import datetime
+
+from ..base import StreamEnd, StreamNone, StreamRepeat, TributaryException
 from .node import Node
-from ..base import StreamNone, StreamRepeat, StreamEnd, TributaryException
 
 
 def Delay(node, delay=1):
@@ -252,11 +253,7 @@ def Reduce(*nodes, reducer=None, inject_node=False):
     """
 
     def func(*values, reducer=reducer):
-        return (
-            values
-            if reducer is None
-            else reducer(*values, ret) if inject_node else reducer(*values)
-        )
+        return values if reducer is None else reducer(*values, ret) if inject_node else reducer(*values)
 
     ret = Node(func=func, name="Reduce", inputs=len(nodes))
     for i, n in enumerate(nodes):
@@ -264,9 +261,7 @@ def Reduce(*nodes, reducer=None, inject_node=False):
     return ret
 
 
-def Subprocess(
-    node, command, json=False, std_err=False, one_off=False, node_to_command=False
-):
+def Subprocess(node, command, json=False, std_err=False, one_off=False, node_to_command=False):
     """Open up a subprocess and yield the results as they come
 
     Args:

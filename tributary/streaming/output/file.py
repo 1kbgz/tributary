@@ -1,7 +1,9 @@
-import aiofiles
 import json as JSON
-from .output import Func
+
+import aiofiles
+
 from ..node import Node
+from .output import Func
 
 
 class File(Func):

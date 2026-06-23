@@ -1,6 +1,7 @@
 import os.path
-import pytest
 import time
+
+import pytest
 
 import tributary.streaming as ts
 

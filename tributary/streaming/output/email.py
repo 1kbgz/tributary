@@ -23,9 +23,7 @@ def make_email(html, from_, subject="", attachments=None):
         item.decompose()
 
     # strip matplotlib base outs
-    for item in soup.find_all(
-        "div", class_="output_text output_subarea output_execute_result"
-    ):
+    for item in soup.find_all("div", class_="output_text output_subarea output_execute_result"):
         for c in item.contents:
             if "&lt;matplotlib" in str(c):
                 item.decompose()
@@ -44,9 +42,7 @@ def make_email(html, from_, subject="", attachments=None):
     for i, img in enumerate(imgs):
         if not img.get("localdata"):
             continue
-        imgs_to_attach[img.get("cell_id") + "_" + str(i) + ".png"] = base64.b64decode(
-            img.get("localdata")
-        )
+        imgs_to_attach[img.get("cell_id") + "_" + str(i) + ".png"] = base64.b64decode(img.get("localdata"))
         img["src"] = "cid:" + img.get("cell_id") + "_" + str(i) + ".png"
         # encoders.encode_base64(part)
         del img["localdata"]

@@ -1,16 +1,15 @@
+from graphviz import Source
+from sympy import dotprint, init_printing, preorder_traversal
+from sympy.parsing.sympy_parser import (
+    implicit_multiplication_application as _ima,
+    parse_expr,
+    standard_transformations as _st,
+)
+from sympy.utilities.lambdify import lambdify
+
 import tributary.lazy as tl
 import tributary.streaming as ts
 from tributary import TributaryException
-
-from sympy.utilities.lambdify import lambdify
-from sympy.parsing.sympy_parser import (
-    parse_expr,
-    standard_transformations as _st,
-    implicit_multiplication_application as _ima,
-)
-from sympy import init_printing, dotprint, preorder_traversal
-from graphviz import Source
-
 
 init_printing(use_unicode=True)
 
@@ -100,9 +99,7 @@ def construct_streaming(expr, modules=None):
             self._kwargs = {}
             for n in names:
                 if n not in kwargs:
-                    raise TributaryException(
-                        "Must provide input source for: {}".format(n)
-                    )
+                    raise TributaryException("Must provide input source for: {}".format(n))
                 setattr(self, n, kwargs.get(n))
                 self._kwargs[n] = kwargs.get(n)
 

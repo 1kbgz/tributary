@@ -1,4 +1,5 @@
 import asyncio
+
 from .input import Func
 
 
@@ -11,9 +12,7 @@ class SubprocessSource(Func):
 
     def __init__(self, command, one_off=False):
         async def _proc(command=command, one_off=one_off):
-            proc = await asyncio.create_subprocess_shell(
-                command, stdout=asyncio.subprocess.PIPE
-            )
+            proc = await asyncio.create_subprocess_shell(command, stdout=asyncio.subprocess.PIPE)
 
             if one_off:
                 stdout, _ = await proc.communicate()

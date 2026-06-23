@@ -1,5 +1,5 @@
-from .node import Node
 from ..base import TributaryException
+from .node import Node
 
 
 class LazyGraph(object):
@@ -21,9 +21,7 @@ class LazyGraph(object):
                     for node in nodes_to_bind:
                         if not hasattr(self, node):
                             raise TributaryException(
-                                "Error binding dependency {} to node {} - make sure to super() after all nodes are defined".format(
-                                    node, meth
-                                )
+                                "Error binding dependency {} to node {} - make sure to super() after all nodes are defined".format(node, meth)
                             )
 
                         node_to_bind = getattr(self, node)
@@ -59,17 +57,13 @@ class LazyGraph(object):
     def __getattribute__(self, name):
         if name == "_LazyGraph__nodes" or name == "__nodes":
             return super(LazyGraph, self).__getattribute__(name)
-        elif hasattr(self, "_LazyGraph__nodes") and name in super(
-            LazyGraph, self
-        ).__getattribute__("_LazyGraph__nodes"):
+        elif hasattr(self, "_LazyGraph__nodes") and name in super(LazyGraph, self).__getattribute__("_LazyGraph__nodes"):
             return super(LazyGraph, self).__getattribute__("_LazyGraph__nodes")[name]
         else:
             return super(LazyGraph, self).__getattribute__(name)
 
     def __setattr__(self, name, value):
-        if hasattr(self, "_LazyGraph__nodes") and name in super(
-            LazyGraph, self
-        ).__getattribute__("_LazyGraph__nodes"):
+        if hasattr(self, "_LazyGraph__nodes") and name in super(LazyGraph, self).__getattribute__("_LazyGraph__nodes"):
             node = super(LazyGraph, self).__getattribute__("_LazyGraph__nodes")[name]
             if isinstance(value, Node) and node == value:
                 return

@@ -1,5 +1,6 @@
 import inspect
-from tributary.utils import extractParameters, Parameter
+
+from tributary.utils import Parameter, extractParameters
 
 
 def func(a, b=1, *c, **d):

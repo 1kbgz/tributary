@@ -1,8 +1,10 @@
 import json as JSON
-from socketIO_client_nexus import SocketIO as SIO
 from urllib.parse import urlparse
-from .output import Func
+
+from socketIO_client_nexus import SocketIO as SIO
+
 from ..node import Node
+from .output import Func
 
 
 class SocketIO(Func):

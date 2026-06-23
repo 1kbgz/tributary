@@ -20,11 +20,7 @@ def pprintCode(astNode):
 
 def isClassAttribute(node):
     # self.aNode()
-    if (
-        isinstance(node, ast.Call)
-        and isinstance(node.func, ast.Attribute)
-        and node.func.value.id == "self"
-    ):
+    if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.value.id == "self":
         return node.func.attr
     # self.aNode
     elif isinstance(node, ast.Attribute) and node.value.id == "self":

@@ -1,11 +1,13 @@
 import asyncio
-import aiohttp
 import json as JSON
 from collections import deque
+
+import aiohttp
 from aiohttp import web
-from .output import Func
+
+from ...base import StreamEnd, StreamNone
 from ..node import Node
-from ...base import StreamNone, StreamEnd
+from .output import Func
 
 
 class WebSocket(Func):
@@ -170,9 +172,7 @@ class WebSocketServer(Func):
                             else:
                                 await ws.send_str(data)
 
-                        elif response_handler and isinstance(
-                            response_handler, (str, bytes)
-                        ):
+                        elif response_handler and isinstance(response_handler, (str, bytes)):
                             if binary:
                                 await ws.send_bytes(response_handler)
                             else:
@@ -208,9 +208,7 @@ class WebSocketServer(Func):
                 history.append(data)
 
             # put data into queue
-            await asyncio.gather(
-                *(asyncio.create_task(queue.put(data)) for queue in queue_map.values())
-            )
+            await asyncio.gather(*(asyncio.create_task(queue.put(data)) for queue in queue_map.values()))
 
             # TODO expect response from clients?
             return data

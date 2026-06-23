@@ -1,6 +1,7 @@
 import json as JSON
-from socketIO_client_nexus import SocketIO as SIO
 from urllib.parse import urlparse
+
+from socketIO_client_nexus import SocketIO as SIO
 
 from .input import Func
 

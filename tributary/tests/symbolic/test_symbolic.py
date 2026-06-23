@@ -1,8 +1,10 @@
 import time
-import tributary.symbolic as ts
-import tributary.streaming as tss
+
 import sympy as sy
 from sympy.stats import Normal as syNormal, cdf
+
+import tributary.streaming as tss
+import tributary.symbolic as ts
 
 sy.init_printing()
 
@@ -21,15 +23,11 @@ class TestConfig:
         d1 = (sy.ln(spot / strike) + (0.5 * vol**2) * T) / (vol * sy.sqrt(T))
         d2 = d1 - vol * sy.sqrt(T)
 
-        TimeValueExpr = sy.exp(-rate * T) * (
-            cp * spot * cdf(N)(cp * d1) - cp * strike * cdf(N)(cp * d2)
-        )
+        TimeValueExpr = sy.exp(-rate * T) * (cp * spot * cdf(N)(cp * d1) - cp * strike * cdf(N)(cp * d2))
 
         PriceClass = ts.construct_lazy(TimeValueExpr)
 
-        price = PriceClass(
-            spot=210.59, strike=205, vol=14.04, dte=4, rate=0.2175, cp=-1
-        )
+        price = PriceClass(spot=210.59, strike=205, vol=14.04, dte=4, rate=0.2175, cp=-1)
 
         x = price.evaluate()()
 
@@ -46,13 +44,9 @@ class TestConfig:
         N = syNormal("N", 0.0, 1.0)
         d1 = (sy.ln(spot / strike) + (0.5 * vol**2) * T) / (vol * sy.sqrt(T))
         d2 = d1 - vol * sy.sqrt(T)
-        TimeValueExpr = sy.exp(-rate * T) * (
-            cp * spot * cdf(N)(cp * d1) - cp * strike * cdf(N)(cp * d2)
-        )
+        TimeValueExpr = sy.exp(-rate * T) * (cp * spot * cdf(N)(cp * d1) - cp * strike * cdf(N)(cp * d2))
         PriceClass = ts.construct_lazy(TimeValueExpr)
-        price = PriceClass(
-            spot=210.59, strike=205, vol=14.04, dte=4, rate=0.2175, cp=-1
-        )
+        price = PriceClass(spot=210.59, strike=205, vol=14.04, dte=4, rate=0.2175, cp=-1)
         price.evaluate()()
         ts.graphviz(TimeValueExpr)
         assert ts.traversal(TimeValueExpr)
@@ -74,9 +68,7 @@ class TestConfig:
         d1 = (sy.ln(spot / strike) + (0.5 * vol**2) * T) / (vol * sy.sqrt(T))
         d2 = d1 - vol * sy.sqrt(T)
 
-        TimeValueExpr = sy.exp(-rate * T) * (
-            cp * spot * cdf(N)(cp * d1) - cp * strike * cdf(N)(cp * d2)
-        )
+        TimeValueExpr = sy.exp(-rate * T) * (cp * spot * cdf(N)(cp * d1) - cp * strike * cdf(N)(cp * d2))
 
         PriceClass = ts.construct_streaming(TimeValueExpr)
 

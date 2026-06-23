@@ -1,10 +1,11 @@
 import json as JSON
 import math
+
 import numpy as np
 from aioconsole import ainput
-from ..node import Node
-from ...base import StreamEnd
 
+from ...base import StreamEnd
+from ..node import Node
 
 _INPUT_GRAPHVIZSHAPE = "box"
 
@@ -40,7 +41,7 @@ class Timer(Node):
             execution_max=count,
             delay_interval=interval,
             graphvizshape=_INPUT_GRAPHVIZSHAPE,
-            **kwargs
+            **kwargs,
         )
 
 
@@ -85,9 +86,7 @@ class Func(Timer):
     """
 
     def __init__(self, func, func_kwargs=None, count=0, interval=0, **kwargs):
-        super().__init__(
-            func=func, func_kwargs=func_kwargs, count=count, interval=interval, **kwargs
-        )
+        super().__init__(func=func, func_kwargs=func_kwargs, count=count, interval=interval, **kwargs)
         self._name = "Func[{}]".format(func.__name__)
 
 

@@ -1,11 +1,12 @@
 import copy
 import logging
+
 from aioconsole import aprint
 from IPython.display import display
-from ..node import Node
+
 from ...base import StreamEnd, StreamNone, StreamRepeat
 from ...utils import _gen_node
-
+from ..node import Node
 
 _OUTPUT_GRAPHVIZSHAPE = "box"
 
@@ -19,12 +20,7 @@ class Func(Node):
     """
 
     def __init__(self, func, func_kwargs=None, **kwargs):
-        super().__init__(
-            func=func,
-            func_kwargs=func_kwargs,
-            graphvizshape=_OUTPUT_GRAPHVIZSHAPE,
-            **kwargs
-        )
+        super().__init__(func=func, func_kwargs=func_kwargs, graphvizshape=_OUTPUT_GRAPHVIZSHAPE, **kwargs)
 
 
 def Print(node, text=""):
@@ -115,12 +111,7 @@ def PPrint(node, level=0):
     if not node.upstream():
         # leaf node
         return ret + "  \\  " + repr(node)
-    return (
-        "    " * level
-        + repr(node)
-        + "\n"
-        + "\n".join(_.pprint(level + 1) for _ in node.upstream())
-    )
+    return "    " * level + repr(node) + "\n" + "\n".join(_.pprint(level + 1) for _ in node.upstream())
 
 
 def GraphViz(node):
@@ -177,9 +168,7 @@ def Dagre(node):
 
     for k in d:
         k._dd3g = G
-        G.setNode(
-            k._name, shape="rect" if k._graphvizshape == "box" else k._graphvizshape
-        )
+        G.setNode(k._name, shape="rect" if k._graphvizshape == "box" else k._graphvizshape)
         rec(d[k], k)
 
     graph = dd3.DagreD3Widget(graph=G)

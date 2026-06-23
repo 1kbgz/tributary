@@ -1,5 +1,6 @@
 import pandas as pd
 import superstore
+
 import tributary.streaming as ts
 
 
@@ -41,9 +42,7 @@ class TestFinance:
             name="EMA_slow",
         )
         MACD = pd.Series(EMA_fast - EMA_slow, name="MACD")
-        MACD_signal = pd.Series(
-            MACD.ewm(ignore_na=False, span=signal, adjust=adjust).mean(), name="SIGNAL"
-        )
+        MACD_signal = pd.Series(MACD.ewm(ignore_na=False, span=signal, adjust=adjust).mean(), name="SIGNAL")
 
         expected = pd.concat([MACD, MACD_signal], axis=1).values
 

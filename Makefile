@@ -1,5 +1,5 @@
 build:  ## Build the repository
-	python setup.py build 
+	python setup.py build
 
 develop:  ## install to site-packages in editable mode
 	python -m pip install --upgrade build pip setuptools twine wheel
@@ -21,19 +21,21 @@ notebooks:  ## test execute the notebooks
 	./scripts/test_notebooks.sh
 
 lint: ## run linter
-	python -m flake8 tributary setup.py docs/conf.py
+	ruff check tributary setup.py docs/conf.py
+	ruff format --check tributary setup.py docs/conf.py
 
 fix:  ## run black fix
-	python -m black tributary/ setup.py docs/conf.py
+	ruff format tributary/ setup.py docs/conf.py
+	ruff check --fix tributary/ setup.py docs/conf.py
 
 check: checks
 checks:  ## run lint and other checks
 	check-manifest
 
 clean: ## clean the repository
-	find . -name "__pycache__" | xargs  rm -rf 
-	find . -name "*.pyc" | xargs rm -rf 
-	find . -name ".ipynb_checkpoints" | xargs  rm -rf 
+	find . -name "__pycache__" | xargs  rm -rf
+	find . -name "*.pyc" | xargs rm -rf
+	find . -name ".ipynb_checkpoints" | xargs  rm -rf
 	rm -rf .coverage coverage *.xml build dist *.egg-info lib node_modules .pytest_cache *.egg-info .autoversion .mypy_cache
 	rm -rf ./*.gv*
 	make -C ./docs clean
@@ -49,7 +51,7 @@ dist:  ## create dists
 	rm -rf dist build
 	python setup.py sdist bdist_wheel
 	python -m twine check dist/*
-	
+
 publish: dist  ## dist to pypi
 	python -m twine upload dist/* --skip-existing
 

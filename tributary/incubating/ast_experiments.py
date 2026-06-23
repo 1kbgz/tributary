@@ -1,13 +1,12 @@
 import random
 
 import tributary.lazy as t
-
 from tributary.parser import (
+    Transformer,
+    addAttributeDepsToMethodSignature,
+    getClassAttributesUsedInMethod,
     parseASTForMethod,
     pprintAst,
-    getClassAttributesUsedInMethod,
-    addAttributeDepsToMethodSignature,
-    Transformer,
     pprintCode,
 )
 

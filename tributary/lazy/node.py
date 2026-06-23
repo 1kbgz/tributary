@@ -1,12 +1,13 @@
 import inspect
 import uuid
 from collections import namedtuple
+
 from frozendict import frozendict
 
-from ..base import StreamEnd, TributaryException, StreamNone, StreamRepeat
+from ..base import StreamEnd, StreamNone, StreamRepeat, TributaryException
 
 # from boltons.funcutils import wraps
-from ..utils import _compare, _ismethod, _gen_to_func
+from ..utils import _compare, _gen_to_func, _ismethod
 from .dd3 import _DagreD3Mixin
 
 ArgState = namedtuple("ArgState", ["args", "kwargs", "varargs", "varkwargs"])
@@ -31,10 +32,7 @@ def extractParameters(callable):
         signature = namedtuple("Signature", ["parameters"])({})
 
     # extract all args. args/kwargs become tuple/dict input
-    return [
-        Parameter(p.name, i, p.default, p.kind)
-        for i, p in enumerate(signature.parameters.values())
-    ]
+    return [Parameter(p.name, i, p.default, p.kind) for i, p in enumerate(signature.parameters.values())]
 
 
 class Parameter(object):
@@ -127,9 +125,7 @@ class Node(_DagreD3Mixin):
             raise TributaryException("Cannot set value to be itself a node")
 
         # Name is a string for display
-        self._name_no_id = (
-            name or self._value.__name__ if hasattr(self._value, "__name__") else "?"
-        )
+        self._name_no_id = name or self._value.__name__ if hasattr(self._value, "__name__") else "?"
         self._name = "{}#{}".format(
             self._name_no_id,
             self._id[:5],
@@ -166,11 +162,7 @@ class Node(_DagreD3Mixin):
             # if we can't do this and we're a method,
             # detach our self. This it to handle errors that
             # come from methods like random.random()
-            if (
-                self._callable_is_method
-                and self._parameters
-                and self._parameters[0].name == "self"
-            ):
+            if self._callable_is_method and self._parameters and self._parameters[0].name == "self":
                 self._parameters = self._parameters[1:]
 
         # go through parameters and wrap in node, or used provided default
@@ -189,9 +181,7 @@ class Node(_DagreD3Mixin):
                 continue
 
             # calculate the real position taking into account the "self"
-            param.position = (
-                param.position if not self._callable_is_method else param.position - 1
-            )
+            param.position = param.position if not self._callable_is_method else param.position - 1
 
             if param.kind == ParamType.VAR_POSITIONAL:
                 # flush the remaining args into new parameters
@@ -374,10 +364,7 @@ class Node(_DagreD3Mixin):
                 kwargs["self"] = self._self_reference
 
             # check if overridden in argsTweaks
-            elif (
-                pass_arg_tweaks_by_node
-                and self.args[param.position] in passThroughArgsTweaks[0]
-            ):
+            elif pass_arg_tweaks_by_node and self.args[param.position] in passThroughArgsTweaks[0]:
                 # tweaked by object reference, add to positionals
                 args.append(passThroughArgsTweaks[0][self.args[param.position]])
 
@@ -393,51 +380,37 @@ class Node(_DagreD3Mixin):
                 # try to repect original function definition
                 if param.kind == ParamType.POSITIONAL_ONLY:
                     # NOTE: only pass kwarg tweaks, cannot tweak via indirect position
-                    args.append(
-                        self.args[param.position](*passThroughArgsTweaks, **kwargTweaks)
-                    )
+                    args.append(self.args[param.position](*passThroughArgsTweaks, **kwargTweaks))
 
                 elif param.kind == ParamType.KEYWORD_ONLY:
                     # NOTE: only pass kwarg tweaks, cannot tweak via indirect position
-                    kwargs[param.name] = self.kwargs[param.name](
-                        *passThroughArgsTweaks, **kwargTweaks
-                    )
+                    kwargs[param.name] = self.kwargs[param.name](*passThroughArgsTweaks, **kwargTweaks)
 
                 elif param.kind == ParamType.POSITIONAL_OR_KEYWORD:
                     # use keyword
                     # NOTE: only pass kwarg tweaks, cannot tweak via indirect position
-                    kwargs[param.name] = self.kwargs[param.name](
-                        *passThroughArgsTweaks, **kwargTweaks
-                    )
+                    kwargs[param.name] = self.kwargs[param.name](*passThroughArgsTweaks, **kwargTweaks)
 
                 elif param.kind == ParamType.VAR_POSITIONAL:
                     # pass in by name without packing/unpacking
                     # NOTE: only pass kwarg tweaks, cannot tweak via indirect position
-                    varargs = (
-                        self.kwargs[param.name](*passThroughArgsTweaks, **kwargTweaks),
-                    )
+                    varargs = (self.kwargs[param.name](*passThroughArgsTweaks, **kwargTweaks),)
 
                 elif param.kind == ParamType.VAR_KEYWORD:
                     # pass in by name without packing/unpacking
                     # NOTE: only pass kwarg tweaks, cannot tweak via indirect position
-                    varkwargs = dict(
-                        **self.kwargs[param.name](*passThroughArgsTweaks, **kwargTweaks)
-                    )
+                    varkwargs = dict(**self.kwargs[param.name](*passThroughArgsTweaks, **kwargTweaks))
 
         # validate arg state
         for i, arg in enumerate(args):
             if arg == StreamNone():
-                raise TypeError(
-                    "Must provide argument for {}".format(self.args[i].name)
-                )
+                raise TypeError("Must provide argument for {}".format(self.args[i].name))
         for name, kwarg in kwargs.items():
             if kwarg == StreamNone():
                 raise TypeError("Must provide argument for {}".format(name))
 
         # Use tuple and fronzendict for hashing state
-        return ArgState(
-            tuple(args), frozendict(kwargs), tuple(varargs), frozendict(varkwargs)
-        )
+        return ArgState(tuple(args), frozendict(kwargs), tuple(varargs), frozendict(varkwargs))
 
     def _execute(self, args_state):
         return self._value(
@@ -513,7 +486,5 @@ class Node(_DagreD3Mixin):
         if isinstance(other, Node):
             return other
         if str(other) not in self._node_op_cache:
-            self._node_op_cache[str(other)] = Node(
-                value=other, name="var(" + str(other) + ")"
-            )
+            self._node_op_cache[str(other)] = Node(value=other, name="var(" + str(other) + ")")
         return self._node_op_cache[str(other)]

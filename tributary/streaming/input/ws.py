@@ -1,6 +1,7 @@
-import aiohttp
 import asyncio
 import json as JSON
+
+import aiohttp
 from aiohttp import web
 
 from .input import Func
@@ -107,9 +108,7 @@ class WebSocketServer(Func):
                         else:
                             await ws.send_str(data)
 
-                    elif response_handler and isinstance(
-                        response_handler, (str, bytes)
-                    ):
+                    elif response_handler and isinstance(response_handler, (str, bytes)):
                         if binary:
                             await ws.send_str(response_handler)
                         else:

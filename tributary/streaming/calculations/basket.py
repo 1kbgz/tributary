@@ -1,6 +1,5 @@
-from .ops import unary
 from ..node import Node
-
+from .ops import unary
 
 Len = unary((lambda x: len(x),), name="Len")
 CountBasket = unary((lambda x: len(x),), name="Count")

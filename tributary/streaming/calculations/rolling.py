@@ -1,8 +1,10 @@
-import pandas as pd
 import statistics
-from .utils import _CALCULATIONS_GRAPHVIZSHAPE
-from ..node import Node
+
+import pandas as pd
+
 from ...base import StreamNone
+from ..node import Node
+from .utils import _CALCULATIONS_GRAPHVIZSHAPE
 
 
 def RollingCount(node):
@@ -179,10 +181,7 @@ def EMA(node, window_width=10, full_only=False, alpha=None, adjust=False):
                 ret._prev = (
                     pd.Series(val).ewm(alpha=alpha, adjust=adjust).mean().iloc[-1]
                     if alpha
-                    else pd.Series(val)
-                    .ewm(span=window_width, adjust=adjust)
-                    .mean()
-                    .iloc[-1]
+                    else pd.Series(val).ewm(span=window_width, adjust=adjust).mean().iloc[-1]
                 )
             else:
                 # calculate from last value
@@ -208,9 +207,7 @@ def Last(node):
             ret._last_val = val
         return ret._last_val
 
-    ret = Node(
-        func=func, name="Last", inputs=1, graphvizshape=_CALCULATIONS_GRAPHVIZSHAPE
-    )
+    ret = Node(func=func, name="Last", inputs=1, graphvizshape=_CALCULATIONS_GRAPHVIZSHAPE)
     ret.set("_last_val", StreamNone())
     node >> ret
     return ret
@@ -231,9 +228,7 @@ def First(node):
         ret._populated = True
         return ret._first
 
-    ret = Node(
-        func=func, name="First", inputs=1, graphvizshape=_CALCULATIONS_GRAPHVIZSHAPE
-    )
+    ret = Node(func=func, name="First", inputs=1, graphvizshape=_CALCULATIONS_GRAPHVIZSHAPE)
     ret.set("_first", StreamNone())
     ret.set("_populated", False)
     node >> ret
@@ -253,9 +248,7 @@ def Diff(node):
         ret._last_val = val
         return diff
 
-    ret = Node(
-        func=func, name="Diff", inputs=1, graphvizshape=_CALCULATIONS_GRAPHVIZSHAPE
-    )
+    ret = Node(func=func, name="Diff", inputs=1, graphvizshape=_CALCULATIONS_GRAPHVIZSHAPE)
     ret.set("_last_val", StreamNone())
     node >> ret
     return ret

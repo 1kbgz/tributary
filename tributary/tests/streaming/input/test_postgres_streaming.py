@@ -1,6 +1,8 @@
-import tributary.streaming as ts
-import pytest
 import time
+
+import pytest
+
+import tributary.streaming as ts
 
 
 class TestPostgres:

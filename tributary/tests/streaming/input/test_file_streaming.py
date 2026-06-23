@@ -1,8 +1,8 @@
 import os
 import os.path
 import time
-import tributary.streaming as ts
 
+import tributary.streaming as ts
 
 _DATA = [
     {"A": 0.5202935277, "B": -0.1342029162, "C": -0.4063935124, "D": 0.7683930309},
@@ -23,9 +23,7 @@ class TestFile:
         time.sleep(0.5)
 
     def test_file(self):
-        file = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "test_file_data.json")
-        )
+        file = os.path.abspath(os.path.join(os.path.dirname(__file__), "test_file_data.json"))
 
         out = ts.Print(ts.FileSource(filename=file, json=False))
         assert ts.run(out) == [
@@ -42,17 +40,13 @@ class TestFile:
         ]
 
     def test_file_json(self):
-        file = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "test_file_data.json")
-        )
+        file = os.path.abspath(os.path.join(os.path.dirname(__file__), "test_file_data.json"))
 
         out = ts.Print(ts.FileSource(filename=file, json=True))
         assert ts.run(out) == _DATA
 
     def test_file_csv(self):
-        file = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "test_file_data.csv")
-        )
+        file = os.path.abspath(os.path.join(os.path.dirname(__file__), "test_file_data.csv"))
 
         out = ts.FileSource(filename=file, csv=True).print()
         assert ts.run(out) == [

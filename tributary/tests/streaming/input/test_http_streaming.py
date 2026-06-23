@@ -1,7 +1,9 @@
 import asyncio
+import time
+
 import pytest
 import requests
-import time
+
 import tributary.streaming as ts
 
 

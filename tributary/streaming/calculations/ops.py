@@ -1,9 +1,11 @@
 import math
+
 import numpy as np
 import scipy as sp
-from .utils import _CALCULATIONS_GRAPHVIZSHAPE, _raise
-from ..node import Node
+
 from ...utils import _gen_node
+from ..node import Node
+from .utils import _CALCULATIONS_GRAPHVIZSHAPE, _raise
 
 
 def unary(funcs, name):
@@ -71,9 +73,7 @@ def n_ary(funcs, name):
 ########################
 Noop = unary((lambda x: x,), name="Noop")
 Negate = unary((lambda x: -1 * x, lambda x: (-1 * x[0], -1 * x[1])), name="Negate")
-Invert = unary(
-    (lambda x: 1 / x, lambda x: (1 / x[0], -x[1] / (x[0] ** 2))), name="Invert"
-)
+Invert = unary((lambda x: 1 / x, lambda x: (1 / x[0], -x[1] / (x[0] ** 2))), name="Invert")
 Add = binary((lambda x, y: x + y, lambda x, y: (x[0] + y[0], x[1] + y[1])), name="Add")
 Sub = binary((lambda x, y: x - y, lambda x, y: (x[0] - y[0], x[1] - y[1])), name="Sub")
 Mult = binary(
@@ -112,9 +112,7 @@ Sum = n_ary(
 Average = n_ary(
     (
         lambda *args: sum(args) / len(args),
-        lambda *args: (
-            (sum([x[0] for x in args]) / len(args), sum(x[1] for x in args) / len(args))
-        ),
+        lambda *args: ((sum([x[0] for x in args]) / len(args), sum(x[1] for x in args) / len(args))),
     ),
     name="Average",
 )
@@ -189,9 +187,7 @@ def __array_function__(self, func, method, *inputs, **kwargs):
 Equal = binary((lambda x, y: x == y, lambda x, y: x[0] == y[0]), name="Equal")
 NotEqual = binary((lambda x, y: x != y, lambda x, y: x[0] != y[0]), name="NotEqual")
 Lt = binary((lambda x, y: x < y, lambda x, y: x[0] < y[0]), name="Less")
-Le = binary(
-    (lambda x, y: x <= y, lambda x, y: x[0] <= y[0] or x[0] == y[0]), name="LessOrEqual"
-)
+Le = binary((lambda x, y: x <= y, lambda x, y: x[0] <= y[0] or x[0] == y[0]), name="LessOrEqual")
 Gt = binary((lambda x, y: x > y, lambda x, y: x[0] > y[0]), name="Greater")
 Ge = binary(
     (lambda x, y: x >= y, lambda x, y: x[0] > y[0] or x[0] == y[0]),
@@ -202,9 +198,7 @@ Ge = binary(
 ##########################
 # Mathematical Functions #
 ##########################
-Log = unary(
-    (lambda x: math.log(x), lambda x: (math.log(x[0]), x[1] / x[0])), name="Log"
-)
+Log = unary((lambda x: math.log(x), lambda x: (math.log(x[0]), x[1] / x[0])), name="Log")
 Sin = unary(
     (lambda x: math.sin(x), lambda x: (math.sin(x[0]), math.cos(x[0]) * x[1])),
     name="Sin",
@@ -242,9 +236,7 @@ Sqrt = unary(
     (lambda x: math.sqrt(x), lambda x: (math.sqrt(x[0]), x[1] * 0.5 / math.sqrt(x[0]))),
     name="Sqrt",
 )
-Abs = unary(
-    (lambda x: abs(x), lambda x: (abs(x[0]), x[1] * x[0] / abs(x[0]))), name="Abs"
-)
+Abs = unary((lambda x: abs(x), lambda x: (abs(x[0]), x[1] * x[0] / abs(x[0]))), name="Abs")
 Exp = unary(
     (lambda x: math.exp(x), lambda x: (math.exp(x[0]), x[1] * math.exp(x[0]))),
     name="Exp",
@@ -284,18 +276,12 @@ Floor = unary(
     (lambda x: math.floor(x), lambda x: (math.floor(x[0]), math.floor(x[1]))),
     name="Floor",
 )
-Ceil = unary(
-    (lambda x: math.ceil(x), lambda x: (math.ceil(x[0]), math.ceil(x[1]))), name="Ceil"
-)
+Ceil = unary((lambda x: math.ceil(x), lambda x: (math.ceil(x[0]), math.ceil(x[1]))), name="Ceil")
 
 
 def Round(self, ndigits=0):
     downstream = Node(
-        lambda x: (
-            round(x, ndigits=ndigits)
-            if not self._use_dual
-            else (round(x[0], ndigits=ndigits), round(x[1], ndigits=ndigits))
-        ),
+        lambda x: round(x, ndigits=ndigits) if not self._use_dual else (round(x[0], ndigits=ndigits), round(x[1], ndigits=ndigits)),
         {},
         name="Round",
         inputs=1,

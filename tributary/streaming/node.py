@@ -2,12 +2,12 @@ import asyncio
 import types
 import uuid
 from collections import deque
+
+from ..base import StreamEnd, StreamNone, StreamRepeat, TributaryException
+from ..utils import _agen_to_func, _gen_to_func
 from .dd3 import _DagreD3Mixin
 from .graph import StreamingGraph
 from .serialize import NodeSerializeMixin
-from ..base import StreamEnd, StreamNone, StreamRepeat
-from ..base import TributaryException
-from ..utils import _agen_to_func, _gen_to_func
 
 
 class Node(NodeSerializeMixin, _DagreD3Mixin, object):
@@ -24,7 +24,7 @@ class Node(NodeSerializeMixin, _DagreD3Mixin, object):
         delay_interval=0,
         execution_max=0,
         use_dual=False,
-        **kwargs
+        **kwargs,
     ):
         """A representation of a node in the forward propogating graph.
 
@@ -144,9 +144,7 @@ class Node(NodeSerializeMixin, _DagreD3Mixin, object):
         """
         if hasattr(self, "_initial_attrs") and key in self._initial_attrs:
             # if we've completed our construction, ensure critical attrs arent overloaded
-            raise TributaryException(
-                "Overloading node-critical attribute: {}".format(key)
-            )
+            raise TributaryException("Overloading node-critical attribute: {}".format(key))
 
         self._initial_attrs.append(key)
         super().__setattr__(key, value)
@@ -154,11 +152,7 @@ class Node(NodeSerializeMixin, _DagreD3Mixin, object):
     def __setattr__(self, key, value):
         if hasattr(self, "_initial_attrs") and key not in self._initial_attrs:
             # if we've completed our construction, ensure critical attrs arent overloaded
-            raise TributaryException(
-                "Use set() to set attribute, to avoid overloading node-critical attribute: {}".format(
-                    key
-                )
-            )
+            raise TributaryException("Use set() to set attribute, to avoid overloading node-critical attribute: {}".format(key))
 
         super().__setattr__(key, value)
 

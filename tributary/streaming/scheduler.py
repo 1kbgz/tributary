@@ -1,11 +1,12 @@
 import sys
 import time
-from io import StringIO
 from datetime import datetime, timedelta
+from io import StringIO
 from multiprocessing import Process
 from threading import Thread
-from .node import Node
+
 from ..base import TributaryException
+from .node import Node
 
 
 def _waitToRun(stdout, stderr, startsafter, endsafter, graph):
@@ -72,9 +73,7 @@ class Scheduler(object):
 
         # When to start and end
         self._startsafter = startsafter or datetime.now()
-        self._endsafter = (
-            self._startsafter + timedelta(days=1) if not endsafter else endsafter
-        )
+        self._endsafter = self._startsafter + timedelta(days=1) if not endsafter else endsafter
 
         # Runner process
         self._process = None
@@ -103,9 +102,7 @@ class Scheduler(object):
         # two conditions for running
         # 1. process is alive
         # 2. process exited uncleanly before end time
-        return self.alive() or (
-            self.exitcode() != 0 and datetime.now() < self.endsafter()
-        )
+        return self.alive() or (self.exitcode() != 0 and datetime.now() < self.endsafter())
 
     def exitcode(self):
         return self._process.exitcode

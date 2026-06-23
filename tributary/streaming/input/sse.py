@@ -1,5 +1,7 @@
 import json as JSON
+
 from aiohttp_sse_client import client as sse_client
+
 from .input import Func
 
 

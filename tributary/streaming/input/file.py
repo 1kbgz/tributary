@@ -1,5 +1,7 @@
-import aiofiles
 import json as JSON
+
+import aiofiles
+
 from .input import Func
 
 

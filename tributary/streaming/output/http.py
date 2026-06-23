@@ -1,10 +1,12 @@
 import asyncio
-import aiohttp
 import json as JSON
+
+import aiohttp
 from aiohttp import web
-from .output import Func
-from ..node import Node
+
 from ...base import StreamEnd, TributaryException
+from ..node import Node
+from .output import Func
 
 
 class HTTP(Func):
@@ -53,9 +55,7 @@ class HTTP(Func):
                 data = [data]
 
             async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    url, cookies=cookies, proxy=proxies, data=data
-                ) as response:
+                async with session.post(url, cookies=cookies, proxy=proxies, data=data) as response:
                     if response_handler and callable(response_handler):
                         return response_handler(response)
 

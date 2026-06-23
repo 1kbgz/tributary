@@ -1,6 +1,6 @@
-from .utils import _CONTROL_GRAPHVIZSHAPE
-from ..node import Node
 from ...base import TributaryException
+from ..node import Node
+from .utils import _CONTROL_GRAPHVIZSHAPE
 
 
 def If(if_node, satisfied_node, unsatisfied_node=None, *elseifs):

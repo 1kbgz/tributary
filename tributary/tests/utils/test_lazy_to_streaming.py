@@ -1,7 +1,8 @@
 import time
+
+import tributary as t
 import tributary.lazy as tl
 import tributary.streaming as ts
-import tributary as t
 
 
 class TestLazyToStreaming:

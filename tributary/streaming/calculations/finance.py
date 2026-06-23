@@ -1,6 +1,6 @@
+from ...base import StreamNone
 from ..node import Node
 from ..utils import Reduce
-from ...base import StreamNone
 
 
 def RSI(node, period=14):
@@ -31,12 +31,8 @@ def RSI(node, period=14):
 
     diff = node.diff()
 
-    ups = diff.apply(_filter(up=True)).ema(
-        window_width=period, alpha=1 / period, adjust=True
-    )
-    downs = diff.apply(_filter(up=False)).ema(
-        window_width=period, alpha=1 / period, adjust=True
-    )
+    ups = diff.apply(_filter(up=True)).ema(window_width=period, alpha=1 / period, adjust=True)
+    downs = diff.apply(_filter(up=False)).ema(window_width=period, alpha=1 / period, adjust=True)
 
     RS = ups / downs
 

@@ -1,4 +1,5 @@
 import json as JSON
+
 from .input import Func
 
 
@@ -14,16 +15,7 @@ class Kafka(Func):
         interval (int): kafka poll interval
     """
 
-    def __init__(
-        self,
-        servers,
-        group,
-        topics,
-        json=False,
-        wrap=False,
-        interval=1,
-        **consumer_kwargs
-    ):
+    def __init__(self, servers, group, topics, json=False, wrap=False, interval=1, **consumer_kwargs):
         from aiokafka import AIOKafkaConsumer
 
         self._consumer = None
@@ -40,12 +32,7 @@ class Kafka(Func):
             interval=interval,
         ):
             if self._consumer is None:
-                self._consumer = AIOKafkaConsumer(
-                    *topics,
-                    bootstrap_servers=servers,
-                    group_id=group,
-                    **consumer_kwargs
-                )
+                self._consumer = AIOKafkaConsumer(*topics, bootstrap_servers=servers, group_id=group, **consumer_kwargs)
 
                 # Get cluster layout and join group `my-group`
                 await self._consumer.start()

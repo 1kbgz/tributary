@@ -1,5 +1,6 @@
-import tributary.lazy as t
 import random
+
+import tributary.lazy as t
 
 
 class Func1(t.LazyGraph):

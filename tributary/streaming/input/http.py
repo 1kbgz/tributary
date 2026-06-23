@@ -1,9 +1,11 @@
-import aiohttp
 import asyncio
 import json as JSON
+
+import aiohttp
 from aiohttp import web
-from .input import Func
+
 from ...base import TributaryException
+from .input import Func
 
 
 class HTTP(Func):
@@ -46,9 +48,7 @@ class HTTP(Func):
             count = 0 if repeat >= 0 else float("-inf")  # make less than anything
             while count < repeat:
                 async with aiohttp.ClientSession() as session:
-                    async with session.get(
-                        url, cookies=cookies, proxy=proxies
-                    ) as response:
+                    async with session.get(url, cookies=cookies, proxy=proxies) as response:
                         if response_handler and callable(response_handler):
                             yield response_handler(response)
 

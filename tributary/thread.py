@@ -1,5 +1,6 @@
-from .base import StreamNone
 from gevent import spawn
+
+from .base import StreamNone
 
 
 def run(target, timeout=1):

@@ -1,13 +1,13 @@
-from .node import Node
-from ..utils import _either_type
 from ..parser import (  # noqa: F401
-    pprintCode,
-    pprintAst,
-    parseASTForMethod,
-    getClassAttributesUsedInMethod,
-    addAttributeDepsToMethodSignature,
     Transformer,
+    addAttributeDepsToMethodSignature,
+    getClassAttributesUsedInMethod,
+    parseASTForMethod,
+    pprintAst,
+    pprintCode,
 )
+from ..utils import _either_type
+from .node import Node
 
 
 @_either_type
