@@ -1,7 +1,6 @@
 from .ops import unary
 from ..node import Node
 
-
 Len = unary((lambda x: len(x),), name="Len")
 CountBasket = unary((lambda x: len(x),), name="Count")
 MaxBasket = unary((lambda x: max(x),), name="Count")

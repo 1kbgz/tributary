@@ -17,7 +17,6 @@ import concurrent.futures.thread as cft  # noqa: E402
 from .input import *  # noqa: F401, F403, E402
 from .utils import *  # noqa: F401, F403, E402
 
-
 _EXECUTOR = ThreadPoolExecutor(max_workers=10)
 
 

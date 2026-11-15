@@ -6,7 +6,6 @@ from ..node import Node
 from ...base import StreamEnd, StreamNone, StreamRepeat
 from ...utils import _gen_node
 
-
 _OUTPUT_GRAPHVIZSHAPE = "box"
 
 

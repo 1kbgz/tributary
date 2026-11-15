@@ -5,7 +5,6 @@ from aioconsole import ainput
 from ..node import Node
 from ...base import StreamEnd
 
-
 _INPUT_GRAPHVIZSHAPE = "box"
 
 

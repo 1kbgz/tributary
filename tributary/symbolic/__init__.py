@@ -11,7 +11,6 @@ from sympy.parsing.sympy_parser import (
 from sympy import init_printing, dotprint, preorder_traversal
 from graphviz import Source
 
-
 init_printing(use_unicode=True)
 
 

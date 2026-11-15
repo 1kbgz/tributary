@@ -4,7 +4,6 @@ from threading import Thread
 
 from ..base import StreamEnd, StreamNone, StreamRepeat, TributaryException  # noqa: F401
 
-
 # nest_asyncio.apply()
 
 
