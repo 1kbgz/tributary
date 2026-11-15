@@ -7,7 +7,7 @@ if os.name != "nt":
     _PATCHED = False
 
     if not _PATCHED:
-        monkey.patch_all(thread=False, select=False)
+        monkey.patch_all(thread=False, select=False, queue=False)
         _PATCHED = True
 
 from functools import partial  # noqa: E402
