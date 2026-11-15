@@ -7,7 +7,7 @@ if os.name != "nt":
     _PATCHED = False
 
     if not _PATCHED:
-        monkey.patch_all(thread=False, select=False)
+        monkey.patch_all(thread=False, select=False, queue=False)
         _PATCHED = True
 
 from functools import partial  # noqa: E402
@@ -16,7 +16,6 @@ from concurrent.futures import ThreadPoolExecutor, _base  # noqa: E402
 import concurrent.futures.thread as cft  # noqa: E402
 from .input import *  # noqa: F401, F403, E402
 from .utils import *  # noqa: F401, F403, E402
-
 
 _EXECUTOR = ThreadPoolExecutor(max_workers=10)
 

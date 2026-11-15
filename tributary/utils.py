@@ -64,8 +64,8 @@ def _ismethod(callable):
         return callable and (
             inspect.ismethod(callable)
             or (
-                inspect.getargspec(callable).args
-                and inspect.getargspec(callable).args[0] == "self"
+                inspect.getfullargspec(callable).args
+                and inspect.getfullargspec(callable).args[0] == "self"
             )
         )
     except TypeError:
