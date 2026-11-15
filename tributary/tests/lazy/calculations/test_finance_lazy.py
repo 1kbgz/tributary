@@ -5,7 +5,7 @@ import tributary.lazy as tl
 
 class TestFinance:
     def test_rsi(self):
-        df = pd.DataFrame(superstore.getTimeSeriesData(20))
+        df = pd.DataFrame(superstore.timeseriesData(20))
         adjust = False
         period = 14
         delta = df["A"].diff().shift(-1)
@@ -24,15 +24,15 @@ class TestFinance:
         for i, x in enumerate(df["A"][1:]):
             val.append(x)
             n.setDirty(True)
-            print("data\t", i, x, n_rsi(), rsi[i])
-            assert abs(n_rsi() - rsi[i]) < 0.003
+            print("data\t", i, x, n_rsi(), rsi.iloc[i])
+            assert abs(n_rsi() - rsi.iloc[i]) < 0.003
 
         n = tl.Node(value=val)
         n_rsi = n.rsi(period=period, basket=True)
         assert n_rsi().tolist() == rsi.tolist()
 
     def test_macd(self):
-        df = pd.DataFrame(superstore.getTimeSeriesData(20))
+        df = pd.DataFrame(superstore.timeseriesData(20))
 
         period_fast = 12
         period_slow = 26
@@ -62,8 +62,8 @@ class TestFinance:
             val.append(x)
             n_macd.setDirty(True)
             ret = n_macd()
-            assert expected.values[i][0] - ret[0] < 0.001
-            assert expected.values[i][1] - ret[1] < 0.001
+            assert expected.values[i][0] - ret.iloc[0] < 0.001
+            assert expected.values[i][1] - ret.iloc[1] < 0.001
 
         n = tl.Node(value=val)
         n_macd = n.macd(

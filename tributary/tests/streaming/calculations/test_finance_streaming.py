@@ -5,7 +5,7 @@ import tributary.streaming as ts
 
 class TestFinance:
     def test_rsi(self):
-        vals = pd.DataFrame(superstore.getTimeSeriesData(20))
+        vals = pd.DataFrame(superstore.timeseriesData(20))
         adjust = False
         period = 14
         delta = vals["A"].diff().shift(-1)
@@ -26,7 +26,7 @@ class TestFinance:
             assert abs(x - y) < 0.001
 
     def test_macd(self):
-        vals = pd.DataFrame(superstore.getTimeSeriesData(20))
+        vals = pd.DataFrame(superstore.timeseriesData(20))
         period_fast = 12
         period_slow = 26
         signal = 9
